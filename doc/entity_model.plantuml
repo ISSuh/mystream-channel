@@ -1,0 +1,73 @@
+@startuml "entity_modeling"
+
+title "mystream-channel Service Entity Model"
+
+Entity Channels {
+  id
+  channelStream : ChannelStream
+  channelDescription : ChannelDescription
+  follwer : ChannelFollower
+  subscriber : ChannelSubscriber
+  createAt
+  updateAt
+}
+
+Entity ChannelStream {
+  id
+  streamUrl
+  active
+  createAt
+  updateAt
+}
+
+Entity ChannelDescription {
+  id
+  titles
+  channelBannerImage
+  createAt
+  updateAt
+}
+
+Entity Follwer {
+  id
+  userId
+  createAt
+  updateAt
+}
+
+Entity ChannelFollower {
+  id
+  channel : Channel
+  follower : Follower
+  followAt : Date
+  createAt
+  updateAt
+}
+
+Entity Subscriber {
+  id
+  userId
+  createAt
+  updateAt
+}
+
+Entity ChannelSubscriber {
+  id
+  channel : Channel
+  subscriber : Subscriber
+  subscribeAt : Date
+  expireAt
+  createAt
+  updateAt
+}
+
+Channels "1" -right- "1" ChannelDescription
+Channels "1" -down- "1" ChannelStream
+
+Channels "1" -left- "*" ChannelSubscriber
+ChannelSubscriber "*" -left- "1" Subscriber
+
+Channels "1" -up- "*" ChannelFollower
+ChannelFollower "*" -up- "1" Follwer
+
+@endum

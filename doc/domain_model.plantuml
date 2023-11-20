@@ -1,0 +1,18 @@
+@startuml "domain_modeling"
+
+title "mystream-channel Service Domain Model"
+
+skinparam componentStyle rectangle
+
+component Channel
+component ChannelStream
+component ChannelDescription
+component Subscriber
+component Follower
+
+Channel "1" -up- "*" Follower
+Channel "1" -down- "1" ChannelStream
+Channel "1" -right- "1" ChannelDescription
+Channel "1" -left- "*" Subscriber
+
+@endum

@@ -1,0 +1,81 @@
+@startuml "table_modeling"
+
+title "mystream-channel Service Table Model"
+
+!define table(x) class x << (T,#FFAAAA) >>
+!define foreign_key(x) **x (FK)**
+
+table(channels) {
+  channel_id
+  ---
+  foreign_key(channel_stream_id)
+  foreign_key(channel_description_id)
+  create_at
+  update_at
+}
+
+table(channel_stream) {
+  channel_stream_id
+  ---
+  stream_url
+  active
+  create_at
+  update_at
+}
+
+table(channel_description) {
+  channel_description_id
+  ---
+  titles
+  channel_banner_image
+  create_at
+  update_at
+}
+
+table(follwer) {
+  follwer_id
+  ---
+  user_id
+  create_at
+  update_at
+}
+
+table(channel_follower) {
+  channel_follower_id
+  ---
+  foreign_key(channel_id)
+  foreign_key(follwer_id)
+  follow_at
+  create_at
+  update_at
+}
+
+table(subscriber) {
+  subscriber_id
+  ---
+  user_id
+  create_at
+  update_at
+}
+
+table(channel_subscriber) {
+  channel_subscriber_id
+  ---
+  foreign_key(channel_id)
+  foreign_key(follwer_id)
+  subscribe_at
+  expire_at
+  create_at
+  update_at
+}
+
+channels ||.right.|| channel_description
+channels ||.down.|| channel_stream
+
+channels ||.left.o{ channel_subscriber
+channel_subscriber }o.left.|| subscriber
+
+channels ||.up.o{ channel_follower
+channel_follower }o.up.|| follwer
+
+@endum
