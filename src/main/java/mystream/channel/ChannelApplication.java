@@ -9,5 +9,4 @@ public class ChannelApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ChannelApplication.class, args);
 	}
-
 }

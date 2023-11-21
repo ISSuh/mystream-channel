@@ -44,7 +44,7 @@ public class ChannelSubscriber extends ModifyTime {
   private LocalDateTime subscribeAt;
 
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "subscribe_at", nullable = true)
+  @Column(name = "subscribe_update_at", nullable = true)
   private LocalDateTime subscribeUpdateAt;
 
   @Temporal(TemporalType.TIMESTAMP)

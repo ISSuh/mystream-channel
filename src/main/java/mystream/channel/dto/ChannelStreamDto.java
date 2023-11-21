@@ -10,7 +10,10 @@ public class ChannelStreamDto {
   private Long streamId;
   private String streamUrl;
   private boolean active;
-  
+
+  public ChannelStreamDto() {
+  }
+
   public ChannelStreamDto(Long streamId, String streamUrl, boolean active) {
     this.streamId = streamId;
     this.streamUrl = streamUrl;

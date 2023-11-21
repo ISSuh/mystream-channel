@@ -12,7 +12,10 @@ public class FollowerDto {
   private Long channelId;
   private LocalDateTime followAt;
   private LocalDateTime unFollowAt;
-  
+    
+  public FollowerDto() {
+  }
+
   public FollowerDto(Long userId, Long channelId, LocalDateTime followAt, LocalDateTime unFollowAt) {
     this.userId = userId;
     this.channelId = channelId;

@@ -1,7 +1,8 @@
 package mystream.channel.entity;
 
-import org.checkerframework.checker.units.qual.s;
 import org.hibernate.annotations.ColumnDefault;
+
+import com.google.common.base.Preconditions;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,21 +30,46 @@ public class ChannelStream extends ModifyTime {
   @Column(name = "stream_id", nullable = false, unique = true)
   private Long streamId;
 
-  @Column(name = "stream_url", length = 100, nullable = true)
+  @Column(name = "stream_url")
   private String streamUrl;
   
   @Enumerated(EnumType.STRING)
-  @ColumnDefault("OFF")
+  @ColumnDefault("'OFF'")
   private StreamActive active;
 
-  public ChannelStream(String streamUrl) {
-    this(null, streamUrl, StreamActive.OFF);
+  public ChannelStream(Long streamId) {
+    this(streamId, null);
   }
 
-  public ChannelStream(Long id, String streamUrl, StreamActive active) {
+  public ChannelStream(Long streamId, String streamUrl) {
+    this(null, streamId, streamUrl, StreamActive.OFF);
+  }
+
+  public ChannelStream(Long id, Long streamId, String streamUrl, StreamActive active) {
+    Preconditions.checkArgument(streamId != null, "streamId must be not null");
+
     this.id = id;
+    this.streamId = streamId;
     this.streamUrl = streamUrl;
     this.active = active;
   }
 
+  public boolean isStreamActive() {
+    return (this.active == StreamActive.ON) ? true : false;
+  }
+
+  public void updateStreamActive(boolean active) {
+    this.active = (active == true) ? StreamActive.ON : StreamActive.OFF;
+  }
+
+  public void updateStreamUrl(String streamUrl) {
+    this.streamUrl = streamUrl;
+  }
+
+  @Override
+  public String toString() {
+    return "ChannelStream [id=" + id + ", streamId=" + streamId + ", streamUrl=" + streamUrl + ", active=" + active
+        + "]";
+  }
+  
 }

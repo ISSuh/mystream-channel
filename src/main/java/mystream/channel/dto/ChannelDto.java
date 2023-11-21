@@ -1,11 +1,7 @@
 package mystream.channel.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import lombok.Data;
-import mystream.channel.entity.ChannelFollower;
-import mystream.channel.entity.ChannelSubscriber;
+import mystream.channel.entity.Channel;
 
 @Data
 public class ChannelDto {
@@ -13,10 +9,20 @@ public class ChannelDto {
   private Long id;
   private ChannelStreamDto stream;
   private ChannelDescriptionDto description;
-  private List<ChannelSubscriber> subscribers = new ArrayList<>();
-  private List<ChannelFollower> followers = new ArrayList<>();
+  
+  public ChannelDto() {
+  }
 
+  public ChannelDto(Long id, ChannelStreamDto stream, ChannelDescriptionDto description) {
+    this.id = id;
+    this.stream = stream;
+    this.description = description;
+  }
 
-
+  public ChannelDto(Channel channel) {
+    this.id = channel.getId();
+    this.stream = new ChannelStreamDto(channel.getStream());
+    this.description = new ChannelDescriptionDto(channel.getDescription());
+  }
 
 }

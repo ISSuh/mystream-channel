@@ -77,5 +77,9 @@ public class Channel extends ModifyTime {
     this.subscribers.add(follower);
   }
 
-  
+  @Override
+  public String toString() {
+    return "Channel [id=" + id + ", stream=" + stream + ", description=" + description + "]";
+  }
+
 }

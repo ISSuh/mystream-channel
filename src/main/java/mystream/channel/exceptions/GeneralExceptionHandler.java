@@ -2,6 +2,7 @@ package mystream.channel.exceptions;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -20,7 +21,7 @@ public class GeneralExceptionHandler {
 
   private ResponseEntity<ApiResponse.ApiResult<?>> response(String message, HttpStatus status) {
     HttpHeaders headers = new HttpHeaders();
-    headers.add("content-type", "application-json");
+    headers.add("content-type", MediaType.APPLICATION_JSON.toString());
 
     ApiResult<?> errorResponse = ApiResponse.error(message, status);
     return new ResponseEntity<>(errorResponse, headers, status);
@@ -37,6 +38,8 @@ public class GeneralExceptionHandler {
   @ExceptionHandler({
     IllegalArgumentException.class,
     IllegalStateException.class,
+    InvalidChannelDescriptionException.class,
+    InvalidChannelStreamActiveException.class
   })
   public ResponseEntity<?> handleBadRequest(Exception e) {
     return response(e, HttpStatus.BAD_REQUEST);

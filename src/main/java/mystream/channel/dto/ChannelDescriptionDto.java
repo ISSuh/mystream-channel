@@ -8,7 +8,10 @@ public class ChannelDescriptionDto {
 
   private String title;
   private Byte[] bannerImage;
-  
+
+  public ChannelDescriptionDto() {
+  }
+
   public ChannelDescriptionDto(String title, Byte[] bannerImage) {
     this.title = title;
     this.bannerImage = bannerImage;

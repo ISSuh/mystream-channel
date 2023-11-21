@@ -22,10 +22,38 @@ public class ChannelDescription {
   @Column(name = "channel_description_id")
   private Long id;
 
-  @Column(name = "titles", length = 255, nullable = true)
+  @Column(name = "titles", length = 255, nullable = false)
   private String title;
 
   @Lob
-  @Column(name = "channel_banner_image", nullable = true)
+  @Column(name = "channel_banner_image")
   private Byte[] bannerImage;
+
+  public ChannelDescription(String title) {
+    this(null, title, null);
+  }
+
+  public ChannelDescription(String title, Byte[] bannerImage) {
+    this(null, title, bannerImage);
+  }
+
+  public ChannelDescription(Long id, String title, Byte[] bannerImage) {
+    this.id = id;
+    this.title = title;
+    this.bannerImage = bannerImage;
+  }
+
+  public void changeTitle(String title) {
+    this.title = title;
+  }
+
+  public void changeBannderImage(Byte[] image) {
+    this.bannerImage = image;
+  }
+
+  @Override
+  public String toString() {
+    return "ChannelDescription [id=" + id + ", title=" + title + "]";
+  }
+
 }
