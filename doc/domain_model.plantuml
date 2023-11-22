@@ -1,10 +1,10 @@
 @startuml "domain_modeling"
 
-title "mystream-channel Service Domain Model"
+title "mystream-broadcast Service Domain Model"
 
 skinparam componentStyle rectangle
 
-component Channel
+component Stream
 component ChannelStream
 component ChannelDescription
 component Subscriber
