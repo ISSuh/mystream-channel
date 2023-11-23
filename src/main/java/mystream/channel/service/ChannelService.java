@@ -32,9 +32,9 @@ public class ChannelService {
 
   public ChannelDto createChannel(NewChannelDto newChannelDto) {
     final String INITIAL_TITLE = "Welcome to my channel";
-    ChannelStream stream = new ChannelStream(newChannelDto.getStreamId());
+    ChannelStream stream = new ChannelStream(newChannelDto.getId());
     ChannelDescription description = new ChannelDescription(INITIAL_TITLE);
-    Channel channel = new Channel(stream, description);
+    Channel channel = new Channel(newChannelDto.getId(), stream, description);
     
     Channel savedChannel = channelRepository.save(channel);
     return new ChannelDto(savedChannel);

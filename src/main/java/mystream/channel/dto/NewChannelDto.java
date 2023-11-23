@@ -1,17 +1,16 @@
 package mystream.channel.dto;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class NewChannelDto {
 
-  Long streamId;
+  Long id;
 
-  public NewChannelDto() {
-  }
-
-  public NewChannelDto(Long streamId) {
-    this.streamId = streamId;
+  public NewChannelDto(Long id) {
+    this.id = id;
   }
 
 }

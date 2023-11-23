@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: mystream-channel
   sql:
     init:
       platform: h2

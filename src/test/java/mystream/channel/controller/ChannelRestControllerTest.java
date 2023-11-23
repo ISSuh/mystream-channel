@@ -46,7 +46,7 @@ public class ChannelRestControllerTest {
     for (Long i = 0L ; i < 5 ; i++ ) {
       ChannelStream stream = new ChannelStream(i, "testurl_" + i);
       ChannelDescription description = new ChannelDescription("test title", null);
-      Channel channel = new Channel(stream, description);
+      Channel channel = new Channel(i, stream, description);
       channelRepository.save(channel);
     }
   }
