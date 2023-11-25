@@ -38,10 +38,10 @@ public class Channel extends ModifyTime {
   @JoinColumn(name = "channel_description", nullable = false)
   private ChannelDescription description;
 
-  @OneToMany(mappedBy = "channel")
+  @OneToMany(mappedBy = "channel", orphanRemoval = true)
   private List<ChannelSubscriber> subscribers = new ArrayList<>();
 
-  @OneToMany(mappedBy = "channel")
+  @OneToMany(mappedBy = "channel", orphanRemoval = true)
   private Set<ChannelFollower> channelFollowers = new HashSet<>();
 
   public Channel(Long id, ChannelStream stream, ChannelDescription description) {

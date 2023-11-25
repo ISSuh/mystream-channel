@@ -36,9 +36,6 @@ public class ChannelRestController {
   @PostMapping("/new")
   public ApiResponse.ApiResult<ChannelDto> createChannel(
     @RequestBody NewChannelDto newChannelDto) {
-    // create follower from user
-    followerService.createFollower(newChannelDto.getId());
-
     // create channel
     ChannelDto channel = channelService.createChannel(newChannelDto);
     return ApiResponse.success(channel);

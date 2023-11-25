@@ -18,7 +18,7 @@ import mystream.channel.exceptions.NotFoundException;
 import mystream.channel.repository.ChannelRepository;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional()
 @RequiredArgsConstructor
 @Slf4j
 public class ChannelService {
@@ -39,10 +39,10 @@ public class ChannelService {
     Channel channel = new Channel(id, stream, description);
 
     Channel savedChannel = channelRepository.save(channel);
+    
     return new ChannelDto(savedChannel);
   }
 
-  @Transactional
   public void updateChannelDescriton(Long id, ChannelDescriptionDto channelDescriptionDto) {
     if (channelDescriptionDto.getTitle() == null || channelDescriptionDto.getTitle().length() > 255) {
       throw new InvalidChannelDescriptionException("invalid title");
@@ -55,7 +55,6 @@ public class ChannelService {
     description.changeTitle(channelDescriptionDto.getTitle());
   }
 
-  @Transactional
   public void updateStreamStatus(Long id, StreamActiveDto streamActiveDto) {
     Channel channel = channelRepository.findChannelById(id)
       .orElseThrow(() -> new NotFoundException("not found channel. " + id));

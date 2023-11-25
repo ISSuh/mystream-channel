@@ -41,7 +41,7 @@ public class FollowService {
     }
     
     Optional<ChannelFollower> channelFollower =
-      channelFollowerRepository.findChannelFollowerByFollowerUserId(followingDto.getChannelId(), followingDto.getUserId());
+      channelFollowerRepository.findChannelFollowerByChannelIdAndUserId(followingDto.getChannelId(), followingDto.getUserId());
     if (channelFollower.isPresent()) {
       throw new InvalidFollowingException("already followed channel.");
     }
@@ -55,14 +55,17 @@ public class FollowService {
         .orElseThrow(() -> new NotFoundException("not found follower." + followingDto.getUserId()));
 
     ChannelFollower newChannelFollower = ChannelFollower.create(channel, follower);
-    newChannelFollower.follow();
+    ChannelFollower savedChannelFollower = channelFollowerRepository.save(newChannelFollower);
+    savedChannelFollower.follow();
   }
 
   public void unfollowChannel(FollowingDto followingDto) {
     ChannelFollower channelFollower =
-      channelFollowerRepository.findChannelFollowerByFollowerUserId(followingDto.getChannelId(), followingDto.getUserId())
+      channelFollowerRepository.findChannelFollowerByChannelIdAndUserId(followingDto.getChannelId(), followingDto.getUserId())
         .orElseThrow(() -> new NotFoundException("not found any followed between channel and user"));
+    
     channelFollower.unfollow();
+    channelFollowerRepository.deleteById(channelFollower.getId());
   }
 
 }

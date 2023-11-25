@@ -1,6 +1,5 @@
 package mystream.channel.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
@@ -12,6 +11,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
 import mystream.channel.dto.ChannelDto;
@@ -51,27 +51,54 @@ public class FollowServiceTest {
       ChannelDto channel = channelService.createChannel(newChannelDto);
       log.info("[TEST] channel = {}", channel);
     }
-
-    List<Channel> findAll = channelRepository.findAll();
-    findAll.forEach(
-      channel -> log.info("[TEST] finded channel = {}"));
   }
 
   @Test
   @Order(1)
   public void followTest() {
+    // given
     Long userId = 1L;
     Long channelId = 3L;
 
-    ChannelDto channel = channelService.findChannelById(channelId);
-    log.info("[TEST] channel = {}", channel);
+    // when
+    FollowingDto followingDto = new FollowingDto(userId, channelId);
+    followService.followChannel(followingDto);
+
+    // then
+    Optional<ChannelFollower> channelFollower =
+      channelFollowerRepository.findChannelFollowerByChannelIdAndUserId(channelId, userId);
+    Assertions.assertThat(channelFollower.isPresent()).isTrue();
+  }
+
+  @Test
+  @Order(2)
+  @Transactional
+  public void unfollowTest() {
+    // given
+    Long userId = 2L;
+    Long channelId = 4L;
 
     FollowingDto followingDto = new FollowingDto(userId, channelId);
     followService.followChannel(followingDto);
 
     Optional<ChannelFollower> channelFollower =
-      channelFollowerRepository.findChannelFollowerByFollowerUserId(channelId, userId);
+      channelFollowerRepository.findChannelFollowerByChannelIdAndUserId(channelId, userId);
+
+    Channel channel1 = channelRepository.findChannelById(channelId).get();
 
     Assertions.assertThat(channelFollower.isPresent()).isTrue();
+    Assertions.assertThat(channel1.getChannelFollowers().size()).isEqualTo(1);
+
+    // when
+    followService.unfollowChannel(followingDto);
+
+    // then
+    channelFollower =
+      channelFollowerRepository.findChannelFollowerByChannelIdAndUserId(channelId, userId);
+
+    Channel channel2 = channelRepository.findChannelById(channelId).get();
+
+    Assertions.assertThat(channelFollower.isPresent()).isFalse();
+    Assertions.assertThat(channel2.getChannelFollowers().isEmpty()).isTrue();
   }
 }

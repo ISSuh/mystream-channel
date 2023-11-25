@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 import com.google.common.base.Preconditions;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -31,20 +30,20 @@ public class ChannelFollower {
   @Column(name = "channel_follower_id")
   private Long id;
 
-  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "channel_id")
   private Channel channel;
 
-  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "follower_id")
   private Follower follower;
 
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "follow_at", nullable = false)
+  @Column(name = "follow_at")
   private LocalDateTime followAt;
 
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "unfollow_at", nullable = false)
+  @Column(name = "unfollow_at")
   private LocalDateTime unFollowAt;
 
   public ChannelFollower(Channel channel, Follower follower) {
@@ -55,8 +54,6 @@ public class ChannelFollower {
     LocalDateTime followAt, LocalDateTime unFollowAt) {
     Preconditions.checkArgument(channel != null, "channel must be no null");
     Preconditions.checkArgument(follower != null, "follower must be no null");
-    Preconditions.checkArgument(followAt != null, "followAt must be no null");
-    Preconditions.checkArgument(unFollowAt != null, "unFollowAt must be no null");
 
     this.id = id;
     this.channel = channel;
