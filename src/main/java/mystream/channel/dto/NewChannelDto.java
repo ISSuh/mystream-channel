@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 public class NewChannelDto {
 
   Long id;
-
+  
   public NewChannelDto(Long id) {
     this.id = id;
   }

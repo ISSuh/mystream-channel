@@ -14,7 +14,9 @@ import mystream.channel.dto.ChannelDto;
 import mystream.channel.dto.NewChannelDto;
 import mystream.channel.dto.StreamActiveDto;
 import mystream.channel.service.ChannelService;
+import mystream.channel.service.FollowService;
 import mystream.channel.utils.ApiResponse;
+
 
 @RestController
 @RequestMapping("/api/channel/v1/channel")
@@ -22,6 +24,7 @@ import mystream.channel.utils.ApiResponse;
 public class ChannelRestController {
   
   private final ChannelService channelService;
+  private final FollowService followerService;
 
   @GetMapping("/{id}")
   public ApiResponse.ApiResult<ChannelDto> findChannel(
@@ -33,6 +36,10 @@ public class ChannelRestController {
   @PostMapping("/new")
   public ApiResponse.ApiResult<ChannelDto> createChannel(
     @RequestBody NewChannelDto newChannelDto) {
+    // create follower from user
+    followerService.createFollower(newChannelDto.getId());
+
+    // create channel
     ChannelDto channel = channelService.createChannel(newChannelDto);
     return ApiResponse.success(channel);
   }
@@ -52,5 +59,21 @@ public class ChannelRestController {
     channelService.updateStreamStatus(id, streamActiveDto);
     return ApiResponse.success(null);
   }
+
+  // @PutMapping("/{id}/follow")
+  // public ApiResponse.ApiResult<?> follow(
+  //   @PathVariable String id, @RequestBody FollowingDto followingDto) {
+  //   //TODO: process PUT request
+    
+  //   return entity;
+  // }
+
+  // @PutMapping("/{id}/unfollow")
+  // public ApiResponse.ApiResult<?> unfollow(
+  //   @PathVariable String id, @RequestBody FollowingDto followingDto) {
+  //   //TODO: process PUT request
+    
+  //   return entity;
+  // }
 
 }

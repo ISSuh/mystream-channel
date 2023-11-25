@@ -1,7 +1,9 @@
 package mystream.channel.entity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.google.common.base.Preconditions;
 
@@ -40,16 +42,14 @@ public class Channel extends ModifyTime {
   private List<ChannelSubscriber> subscribers = new ArrayList<>();
 
   @OneToMany(mappedBy = "channel")
-  private List<ChannelFollower> followers = new ArrayList<>();
+  private Set<ChannelFollower> channelFollowers = new HashSet<>();
 
   public Channel(Long id, ChannelStream stream, ChannelDescription description) {
     this(id, stream, description, null, null);
-    this.stream = stream;
-    this.description = description;
   }
 
   public Channel(Long id, ChannelStream stream, ChannelDescription description,
-      List<ChannelSubscriber> subscribers, List<ChannelFollower> followers) {
+      List<ChannelSubscriber> subscribers, Set<ChannelFollower> channelFollowers) {
     Preconditions.checkArgument(stream != null, "stream must be not null");
     Preconditions.checkArgument(description != null, "description must be not null");
 
@@ -61,13 +61,17 @@ public class Channel extends ModifyTime {
       this.subscribers = subscribers;
     }
 
-    if (followers != null) {
-      this.followers = followers;
+    if (channelFollowers != null) {
+      this.channelFollowers = channelFollowers;
     }
   }
 
   public void addFollwer(ChannelFollower follower) {
-    this.followers.add(follower);
+    this.channelFollowers.add(follower);
+  }
+
+  public void removeFollwer(ChannelFollower follower) {
+    this.channelFollowers.remove(follower);
   }
 
   public void addSubscriber(ChannelSubscriber follower) {

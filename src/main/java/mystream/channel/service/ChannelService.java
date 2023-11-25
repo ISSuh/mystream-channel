@@ -1,11 +1,10 @@
 package mystream.channel.service;
 
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import mystream.channel.dto.ChannelDescriptionDto;
 import mystream.channel.dto.ChannelDto;
 import mystream.channel.dto.NewChannelDto;
@@ -21,21 +20,24 @@ import mystream.channel.repository.ChannelRepository;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class ChannelService {
 
   private final ChannelRepository channelRepository;
 
   public ChannelDto findChannelById(Long id) {
-    Optional<ChannelDto> channel = channelRepository.findChannelDtoById(id);
-    return channel.orElseThrow(() -> new NotFoundException("not found channel. " + id));
+    ChannelDto channel = channelRepository.findChannelDtoById(id)
+      .orElseThrow(() -> new NotFoundException("not found channel. " + id));
+    return channel;
   }
 
   public ChannelDto createChannel(NewChannelDto newChannelDto) {
     final String INITIAL_TITLE = "Welcome to my channel";
-    ChannelStream stream = new ChannelStream(newChannelDto.getId());
+    Long id = newChannelDto.getId();
+    ChannelStream stream = new ChannelStream(id);
     ChannelDescription description = new ChannelDescription(INITIAL_TITLE);
-    Channel channel = new Channel(newChannelDto.getId(), stream, description);
-    
+    Channel channel = new Channel(id, stream, description);
+
     Channel savedChannel = channelRepository.save(channel);
     return new ChannelDto(savedChannel);
   }

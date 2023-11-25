@@ -47,6 +47,10 @@ public class ChannelFollower {
   @Column(name = "unfollow_at", nullable = false)
   private LocalDateTime unFollowAt;
 
+  public ChannelFollower(Channel channel, Follower follower) {
+    this(null, channel, follower, null, null);
+  }
+
   private ChannelFollower(Long id, Channel channel, Follower follower,
     LocalDateTime followAt, LocalDateTime unFollowAt) {
     Preconditions.checkArgument(channel != null, "channel must be no null");
@@ -61,10 +65,19 @@ public class ChannelFollower {
     this.unFollowAt = unFollowAt;
   }
 
-  public static ChannelFollower create(Channel channel, Follower follower, LocalDateTime followAt, LocalDateTime unFollowAt) {
-    ChannelFollower channelFollower = new ChannelFollower(null, channel, follower, followAt, unFollowAt);
-    channel.addFollwer(channelFollower);
+  public static ChannelFollower create(Channel channel, Follower follower) {
+    ChannelFollower channelFollower = new ChannelFollower(null, channel, follower, null, null);
     return channelFollower;
+  }
+
+  public void follow() {
+    channel.addFollwer(this);
+    this.followAt = LocalDateTime.now();
+  }
+
+  public void unfollow() {
+    channel.removeFollwer(this);
+    this.unFollowAt = LocalDateTime.now();
   }
 
 }

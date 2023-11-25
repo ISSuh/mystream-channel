@@ -2,8 +2,6 @@ package mystream.channel.entity;
 
 import org.hibernate.annotations.ColumnDefault;
 
-import com.google.common.base.Preconditions;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -27,7 +25,7 @@ public class ChannelStream extends ModifyTime {
   @Column(name = "channel_stream_id")
   private Long id;
 
-  @Column(name = "stream_id", nullable = false, unique = true)
+  @Column(name = "stream_id", unique = true)
   private Long streamId;
 
   @Column(name = "stream_url")
@@ -46,8 +44,6 @@ public class ChannelStream extends ModifyTime {
   }
 
   public ChannelStream(Long id, Long streamId, String streamUrl, StreamActive active) {
-    Preconditions.checkArgument(streamId != null, "streamId must be not null");
-
     this.id = id;
     this.streamId = streamId;
     this.streamUrl = streamUrl;
