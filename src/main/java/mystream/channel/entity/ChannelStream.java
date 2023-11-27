@@ -1,6 +1,7 @@
 package mystream.channel.entity;
 
-import org.hibernate.annotations.ColumnDefault;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,14 +10,15 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import mystream.channel.exceptions.InvalidChannelStreamStatusException;
 
 @Entity
 @Table(name = "channel_stream")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor()
 @Getter
 public class ChannelStream extends ModifyTime {
   
@@ -25,47 +27,53 @@ public class ChannelStream extends ModifyTime {
   @Column(name = "channel_stream_id")
   private Long id;
 
-  @Column(name = "stream_id", unique = true)
-  private Long streamId;
+  @OneToMany(mappedBy = "channelStream")
+  List<Stream> streams = new ArrayList<>();
 
-  @Column(name = "stream_url")
-  private String streamUrl;
-  
   @Enumerated(EnumType.STRING)
-  @ColumnDefault("'OFF'")
-  private StreamActive active;
+  StreamActive active;
 
-  public ChannelStream(Long streamId) {
-    this(streamId, null);
-  }
-
-  public ChannelStream(Long streamId, String streamUrl) {
-    this(null, streamId, streamUrl, StreamActive.OFF);
-  }
-
-  public ChannelStream(Long id, Long streamId, String streamUrl, StreamActive active) {
+  public ChannelStream(Long id, List<Stream> streams, StreamActive active) {
     this.id = id;
-    this.streamId = streamId;
-    this.streamUrl = streamUrl;
+    this.active = active;
+
+    if (streams != null) {
+      this.streams = streams;
+    }
+  }
+
+  public boolean isActive() {
+    return (this.active == StreamActive.ON);
+  }
+
+  public void updateActiveStatus(StreamActive active) {
     this.active = active;
   }
 
-  public boolean isStreamActive() {
-    return (this.active == StreamActive.ON) ? true : false;
+  public Stream currentStream() {
+    if (!isActive()) {
+      throw new InvalidChannelStreamStatusException("current stream is deactived");
+    }
+
+    if (this.streams.isEmpty()) {
+      return null;
+    }
+
+    int lastIndex = this.streams.size() - 1;
+    return this.streams.get(lastIndex);
   }
 
-  public void updateStreamActive(boolean active) {
-    this.active = (active == true) ? StreamActive.ON : StreamActive.OFF;
+  public Stream lastStream() {
+    if (this.streams.isEmpty()) {
+      return null;
+    }
+
+    int lastIndex = this.streams.size() - 1;
+    return this.streams.get(lastIndex);
   }
 
-  public void updateStreamUrl(String streamUrl) {
-    this.streamUrl = streamUrl;
-  }
-
-  @Override
-  public String toString() {
-    return "ChannelStream [id=" + id + ", streamId=" + streamId + ", streamUrl=" + streamUrl + ", active=" + active
-        + "]";
+  public void addStream(Stream stream) {
+    this.streams.add(stream);
   }
   
 }

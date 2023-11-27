@@ -40,7 +40,6 @@ public class FollowServiceTest {
   @Autowired
   private ChannelRepository channelRepository;
 
-
   @BeforeAll
   public void beforeAll() {
     for (Long i = 0L; i < 5 ; i++ ) {

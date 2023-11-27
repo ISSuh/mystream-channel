@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import mystream.channel.dto.ChannelDescriptionDto;
 import mystream.channel.dto.ChannelDto;
+import mystream.channel.dto.FollowingDto;
 import mystream.channel.dto.NewChannelDto;
-import mystream.channel.dto.StreamActiveDto;
 import mystream.channel.service.ChannelService;
 import mystream.channel.service.FollowService;
 import mystream.channel.utils.ApiResponse;
@@ -49,28 +50,26 @@ public class ChannelRestController {
     return ApiResponse.success(null);
   }
 
-  @PatchMapping("/{id}/stream")
-  public ApiResponse.ApiResult<ChannelDto> updateStreamActiveStatus(
-    @PathVariable Long id,
-    @RequestBody StreamActiveDto streamActiveDto) {
-    channelService.updateStreamStatus(id, streamActiveDto);
+  // @PatchMapping("/{id}/stream")
+  // public ApiResponse.ApiResult<ChannelDto> updateStreamActiveStatus(
+  //   @PathVariable Long id,
+  //   @RequestBody StreamActiveDto streamActiveDto) {
+  //   channelService.updateStream(id, streamActiveDto);
+  //   return ApiResponse.success(null);
+  // }
+
+  @PutMapping("/{id}/follow")
+  public ApiResponse.ApiResult<?> follow(
+    @PathVariable String id, @RequestBody FollowingDto followingDto) {
+    followerService.followChannel(followingDto);
     return ApiResponse.success(null);
   }
 
-  // @PutMapping("/{id}/follow")
-  // public ApiResponse.ApiResult<?> follow(
-  //   @PathVariable String id, @RequestBody FollowingDto followingDto) {
-  //   //TODO: process PUT request
-    
-  //   return entity;
-  // }
-
-  // @PutMapping("/{id}/unfollow")
-  // public ApiResponse.ApiResult<?> unfollow(
-  //   @PathVariable String id, @RequestBody FollowingDto followingDto) {
-  //   //TODO: process PUT request
-    
-  //   return entity;
-  // }
+  @PutMapping("/{id}/unfollow")
+  public ApiResponse.ApiResult<?> unfollow(
+    @PathVariable String id, @RequestBody FollowingDto followingDto) {
+    followerService.unfollowChannel(followingDto);
+    return ApiResponse.success(null);
+  }
 
 }

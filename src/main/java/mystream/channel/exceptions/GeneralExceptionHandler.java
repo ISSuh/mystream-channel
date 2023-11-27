@@ -41,7 +41,8 @@ public class GeneralExceptionHandler {
     InvalidChannelDescriptionException.class,
     InvalidChannelStreamActiveException.class,
     InvalidChannelCreateException.class,
-    InvalidChannelCreateException.class
+    InvalidChannelCreateException.class,
+    InvalidChannelStreamStatusException.class
   })
   public ResponseEntity<?> handleBadRequest(Exception e) {
     return response(e, HttpStatus.BAD_REQUEST);

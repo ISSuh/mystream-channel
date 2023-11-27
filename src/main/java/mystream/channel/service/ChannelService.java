@@ -8,17 +8,15 @@ import lombok.extern.slf4j.Slf4j;
 import mystream.channel.dto.ChannelDescriptionDto;
 import mystream.channel.dto.ChannelDto;
 import mystream.channel.dto.NewChannelDto;
-import mystream.channel.dto.StreamActiveDto;
 import mystream.channel.entity.Channel;
 import mystream.channel.entity.ChannelDescription;
 import mystream.channel.entity.ChannelStream;
 import mystream.channel.exceptions.InvalidChannelDescriptionException;
-import mystream.channel.exceptions.InvalidChannelStreamActiveException;
 import mystream.channel.exceptions.NotFoundException;
 import mystream.channel.repository.ChannelRepository;
 
 @Service
-@Transactional()
+@Transactional
 @RequiredArgsConstructor
 @Slf4j
 public class ChannelService {
@@ -34,9 +32,9 @@ public class ChannelService {
   public ChannelDto createChannel(NewChannelDto newChannelDto) {
     final String INITIAL_TITLE = "Welcome to my channel";
     Long id = newChannelDto.getId();
-    ChannelStream stream = new ChannelStream(id);
+    ChannelStream channelStream = new ChannelStream();
     ChannelDescription description = new ChannelDescription(INITIAL_TITLE);
-    Channel channel = new Channel(id, stream, description);
+    Channel channel = new Channel(id, channelStream, description);
 
     Channel savedChannel = channelRepository.save(channel);
     
@@ -53,27 +51,6 @@ public class ChannelService {
     
     ChannelDescription description = channel.getDescription();
     description.changeTitle(channelDescriptionDto.getTitle());
-  }
-
-  public void updateStreamStatus(Long id, StreamActiveDto streamActiveDto) {
-    Channel channel = channelRepository.findChannelById(id)
-      .orElseThrow(() -> new NotFoundException("not found channel. " + id));
-    
-
-    ChannelStream stream = channel.getStream();
-    if (stream.getStreamId() != streamActiveDto.getStreamId()) {
-      throw new InvalidChannelStreamActiveException("invalid stream id");
-    }
-    
-    if (stream.isStreamActive() == streamActiveDto.getActive()) {
-      throw new InvalidChannelStreamActiveException("invalid stream active state");
-    }
-
-    stream.updateStreamActive(streamActiveDto.getActive());
-
-    if (!streamActiveDto.getStreamUrl().isEmpty()) {
-      stream.updateStreamUrl(streamActiveDto.getStreamUrl());
-    }
   }
 
 }

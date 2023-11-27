@@ -31,11 +31,11 @@ public class Channel extends ModifyTime {
   private Long id;
 
   @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  @JoinColumn(name = "channel_stream", nullable = false)
-  private ChannelStream stream;
+  @JoinColumn(name = "channel_stream_id", nullable = false)
+  private ChannelStream channelStream;
 
   @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  @JoinColumn(name = "channel_description", nullable = false)
+  @JoinColumn(name = "channel_description_id", nullable = false)
   private ChannelDescription description;
 
   @OneToMany(mappedBy = "channel", orphanRemoval = true)
@@ -44,17 +44,17 @@ public class Channel extends ModifyTime {
   @OneToMany(mappedBy = "channel", orphanRemoval = true)
   private Set<ChannelFollower> channelFollowers = new HashSet<>();
 
-  public Channel(Long id, ChannelStream stream, ChannelDescription description) {
-    this(id, stream, description, null, null);
+  public Channel(Long id, ChannelStream channelStream, ChannelDescription description) {
+    this(id, channelStream, description, null, null);
   }
 
-  public Channel(Long id, ChannelStream stream, ChannelDescription description,
+  public Channel(Long id, ChannelStream channelStream, ChannelDescription description,
       List<ChannelSubscriber> subscribers, Set<ChannelFollower> channelFollowers) {
-    Preconditions.checkArgument(stream != null, "stream must be not null");
+    Preconditions.checkArgument(channelStream != null, "stream must be not null");
     Preconditions.checkArgument(description != null, "description must be not null");
 
     this.id = id;
-    this.stream = stream;
+    this.channelStream = channelStream;
     this.description = description;
 
     if (subscribers != null) {
@@ -76,11 +76,6 @@ public class Channel extends ModifyTime {
 
   public void addSubscriber(ChannelSubscriber follower) {
     this.subscribers.add(follower);
-  }
-
-  @Override
-  public String toString() {
-    return "Channel [id=" + id + ", stream=" + stream + ", description=" + description + "]";
   }
 
 }

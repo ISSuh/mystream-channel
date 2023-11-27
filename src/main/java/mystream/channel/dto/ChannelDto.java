@@ -1,17 +1,16 @@
 package mystream.channel.dto;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import mystream.channel.entity.Channel;
 
 @Data
+@NoArgsConstructor
 public class ChannelDto {
 
   private Long id;
   private ChannelStreamDto stream;
   private ChannelDescriptionDto description;
-  
-  public ChannelDto() {
-  }
 
   public ChannelDto(Long id, ChannelStreamDto stream, ChannelDescriptionDto description) {
     this.id = id;
@@ -21,7 +20,7 @@ public class ChannelDto {
 
   public ChannelDto(Channel channel) {
     this.id = channel.getId();
-    this.stream = new ChannelStreamDto(channel.getStream());
+    this.stream = new ChannelStreamDto(channel.getChannelStream());
     this.description = new ChannelDescriptionDto(channel.getDescription());
   }
 
