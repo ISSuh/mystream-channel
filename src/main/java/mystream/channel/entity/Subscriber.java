@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "subscriber")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Subscriber {
+public class Subscriber extends ModifyTime {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

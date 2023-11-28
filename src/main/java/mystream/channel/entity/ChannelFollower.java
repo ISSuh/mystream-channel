@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "channel_follower")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class ChannelFollower {
+public class ChannelFollower extends ModifyTime {
   
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

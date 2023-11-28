@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "channel_desciption")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class ChannelDescription {
+public class ChannelDescription extends ModifyTime {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

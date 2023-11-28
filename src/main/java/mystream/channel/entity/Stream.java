@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "stream")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Stream {
+public class Stream extends ModifyTime {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +32,7 @@ public class Stream {
   private Long id;
 
   @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  @JoinColumn(name = "streams", nullable = false)
+  @JoinColumn(name = "channel_stream_id", nullable = false)
   private ChannelStream channelStream;
 
   @Column(name = "stream_url", nullable = false)
