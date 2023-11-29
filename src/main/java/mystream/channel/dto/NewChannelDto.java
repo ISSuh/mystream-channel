@@ -7,10 +7,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class NewChannelDto {
 
-  Long id;
+  private Long id;
   
-  public NewChannelDto(Long id) {
+  private String username;
+
+  public NewChannelDto(Long id, String username) {
     this.id = id;
+    this.username = username;
   }
 
 }

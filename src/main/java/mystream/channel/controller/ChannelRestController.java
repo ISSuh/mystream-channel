@@ -60,14 +60,16 @@ public class ChannelRestController {
 
   @PutMapping("/{id}/follow")
   public ApiResponse.ApiResult<?> follow(
-    @PathVariable String id, @RequestBody FollowingDto followingDto) {
+    @PathVariable String id,
+    @RequestBody FollowingDto followingDto) {
     followerService.followChannel(followingDto);
     return ApiResponse.success(null);
   }
 
   @PutMapping("/{id}/unfollow")
   public ApiResponse.ApiResult<?> unfollow(
-    @PathVariable String id, @RequestBody FollowingDto followingDto) {
+    @PathVariable String id,
+    @RequestBody FollowingDto followingDto) {
     followerService.unfollowChannel(followingDto);
     return ApiResponse.success(null);
   }

@@ -100,7 +100,7 @@ public class ChannelRestControllerTest {
   @Order(3)
   @DisplayName("create channel test")
   public void createChannel() throws Exception {
-    NewChannelDto dto = new NewChannelDto(100L);
+    NewChannelDto dto = new NewChannelDto(100L, "test_100");
     ObjectMapper mapper = new ObjectMapper();
     String dtoJsonString = mapper.writeValueAsString(dto);
 

@@ -44,7 +44,8 @@ public class FollowServiceTest {
   public void beforeAll() {
     for (Long i = 0L; i < 5 ; i++ ) {
       Long id = i + 1;
-      NewChannelDto newChannelDto = new NewChannelDto(id);
+      String username = "test_" + id;
+      NewChannelDto newChannelDto = new NewChannelDto(id, username);
       followService.createFollower(id);
       
       ChannelDto channel = channelService.createChannel(newChannelDto);

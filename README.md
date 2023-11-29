@@ -33,3 +33,14 @@ mystream channel service
 ### Table Modeling
 
 ![table](https://www.plantuml.com/plantuml/png/fPB1Se8m48RlUOgjlGXJV0B7iHSldPxgdGcmQAQ1C4bG7F7T6yfA3ThH6Rd0_ldpxRyaIsEvjdKXcHLM8aoAWx4QUH6bMrwMAE4BzKwa26kUkFLFbQ6SCFQIOIvA1DkfqoQ0L79Ze87v7ARhjzVLwjqz0ImMWpLN6iMcZB_nq6q8mmQcguyW31dhATJH171a05J58dD554KCFC9vkK_hNC4_XWnDgaLbXIh9bReT5cDktNTTPVHzeXWZCeNnjCjCfDHQkeAdLkpmqHPUDh-F7tfezdj6viANT2yTYu9l7cYRAodtgFjML5pYQqFre_axXXg8O_NUqLsV6MMYbPxZ6jyFPEga-s79ESfGFpVV63lMdvvn24fPiAc4nZiZ4zj0sywqs6pjh6rltHpFcAbzwNoZc-p39EPsfeutncJN4fnKly51_rGVM5U4y-u5yuKUvQmEH3-7iIMMMLtGI_u0)
+
+
+## API
+
+| name | method | path | decription | request body |
+| -- | -- | -- | -- | -- |
+| create | POST | /api/channel/v1/channel/new | create channel | { "id": 100, "username":"user100" } |
+| find | GET | /api/channel/v1/channel/{id} | find channel | |
+| updateChannelDescription | PATCH | /api/channel/v1/channel/{id}/description | change value of channel description | { "title": "hello", "bannerImage" : "" } |
+| follow | PUT | /api/channel/v1/channel/{id}/follow | follow channel | { "userId" : 100, "channelId" : 105 } |
+| unfollow | PUT | /api/channel/v1/channel/{id}/unfollow | unfollow channel | { "userId" : 100, "channelId" : 105 } |
