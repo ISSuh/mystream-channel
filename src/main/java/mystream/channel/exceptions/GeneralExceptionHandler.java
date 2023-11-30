@@ -9,8 +9,13 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-import mystream.channel.utils.ApiResponse;
-import mystream.channel.utils.ApiResponse.ApiResult;
+import mystream.channel.api.utils.ApiResponse;
+import mystream.channel.api.utils.ApiResponse.ApiResult;
+import mystream.channel.exceptions.channel.InvalidChannelCreateException;
+import mystream.channel.exceptions.channel.InvalidChannelDescriptionException;
+import mystream.channel.exceptions.common.NotFoundException;
+import mystream.channel.exceptions.stream.InvalidChannelStreamActiveException;
+import mystream.channel.exceptions.stream.InvalidChannelStreamStatusException;
 
 @ControllerAdvice
 public class GeneralExceptionHandler {

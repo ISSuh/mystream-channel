@@ -32,3 +32,9 @@ server:
 eureka:
   client:
     enabled: false
+
+kafka:
+  bootstrap-servers: localhost:9092
+  consumer:
+    group-id: mystream-channel
+    auto-offset-reset: earliest
