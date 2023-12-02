@@ -34,8 +34,8 @@ public class ChannelServiceImpl implements ChannelService {
 
   @Override
   public ChannelDto create(NewChannelDto newChannelDto) {
-    final String INITIAL_TITLE = "Welcome to my channel";
     Long id = newChannelDto.getId();
+    String username = newChannelDto.getUsername();
 
     Optional<Channel> find = channelRepository.findById(id);
     if (find.isPresent()) {
@@ -43,8 +43,8 @@ public class ChannelServiceImpl implements ChannelService {
     }
 
     ChannelStream channelStream = new ChannelStream();
-    ChannelDescription description = new ChannelDescription(INITIAL_TITLE);
-    Channel channel = new Channel(id, channelStream, description);
+    ChannelDescription description = new ChannelDescription();
+    Channel channel = new Channel(id, username, channelStream, description);
 
     Channel savedChannel = channelRepository.saveEntity(channel);
     return new ChannelDto(savedChannel);

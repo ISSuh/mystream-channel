@@ -34,6 +34,9 @@ public class Channel extends ModifyTime {
   @Column(name = "channel_id")
   private Long id;
 
+  @Column(name = "username")
+  private String username;
+
   @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @JoinColumn(name = "channel_stream_id", nullable = false)
   private ChannelStream channelStream;
@@ -48,11 +51,11 @@ public class Channel extends ModifyTime {
   @OneToMany(mappedBy = "channel", orphanRemoval = true)
   private Set<ChannelFollower> channelFollowers = new HashSet<>();
 
-  public Channel(Long id, ChannelStream channelStream, ChannelDescription description) {
-    this(id, channelStream, description, null, null);
+  public Channel(Long id, String username, ChannelStream channelStream, ChannelDescription description) {
+    this(id, username, channelStream, description, null, null);
   }
 
-  public Channel(Long id, ChannelStream channelStream, ChannelDescription description,
+  public Channel(Long id, String username, ChannelStream channelStream, ChannelDescription description,
       List<ChannelSubscriber> subscribers, Set<ChannelFollower> channelFollowers) {
     Preconditions.checkArgument(channelStream != null, "stream must be not null");
     Preconditions.checkArgument(description != null, "description must be not null");
@@ -80,6 +83,10 @@ public class Channel extends ModifyTime {
 
   public void addSubscriber(ChannelSubscriber follower) {
     this.subscribers.add(follower);
+  }
+
+  public void updateUsername(String username) {
+    this.username = username;
   }
 
   @Override

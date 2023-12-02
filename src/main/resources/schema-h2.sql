@@ -105,6 +105,7 @@ create table channel_desciption (
 
 create table channels (
   channel_id bigint not null,
+  username varchar(50) not null,
   channel_description_id bigint not null,
   channel_stream_id bigint not null,
 

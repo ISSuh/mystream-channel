@@ -7,14 +7,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import mystream.channel.domain.base.entity.ModifyTime;
 
 @Entity
 @Table(name = "channel_desciption")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor()
 @Getter
 public class ChannelDescription extends ModifyTime {
 
@@ -24,15 +23,11 @@ public class ChannelDescription extends ModifyTime {
   private Long id;
 
   @Column(name = "titles", length = 255, nullable = false)
-  private String title;
+  private String title = "Welcome to my channel";
 
   @Lob
   @Column(name = "channel_banner_image")
   private Byte[] bannerImage;
-
-  public ChannelDescription(String title) {
-    this(null, title, null);
-  }
 
   public ChannelDescription(String title, Byte[] bannerImage) {
     this(null, title, bannerImage);

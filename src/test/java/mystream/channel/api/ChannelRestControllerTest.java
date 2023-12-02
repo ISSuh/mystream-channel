@@ -216,9 +216,10 @@ public class ChannelRestControllerTest {
   private void createDummy() {
     for (Long i = 0L ; i < 5 ; i++ ) {
       Long id = i + 1;
+      String username = "test_" + id;
       ChannelStream stream = new ChannelStream();
       ChannelDescription description = new ChannelDescription("test title", null);
-      Channel channel = new Channel(id, stream, description);
+      Channel channel = new Channel(id, username, stream, description);
       channelRepository.saveEntity(channel);
     }
   }
