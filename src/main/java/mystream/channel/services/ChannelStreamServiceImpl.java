@@ -38,7 +38,7 @@ public class ChannelStreamServiceImpl implements ChannelStreamService {
     if (channelStream.isActive()) {
       throw new InvalidChannelStreamActiveException("stream already actived");
     }
-    
+
     Stream lastStream = channelStream.lastStream();
     if ((lastStream != null) && 
         ((streamStatusDto.getStreamActiveAt() == null) ||
